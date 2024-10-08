@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=./node_modules/envio/evm.schema.json
+name: erc20indexer
+description: ERC-20 indexer
+networks:
+  - id: 1001 # Kairos Testnet
+    rpc_config:
+      url: https://responsive-green-emerald.kaia-kairos.quiknode.pro/ # RPC URL that will be used to subscribe to blockchain data on this network
+      initial_block_interval: 10000 # Integer
+      backoff_multiplicative: 0.8 # Float
+      acceleration_additive: 2000 # Integer
+      interval_ceiling: 10000 # Integer
+      backoff_millis: 5000 # Integer
+      query_timeout_millis: 20000 # Integer
+    start_block: 166803165
+    contracts:
+      - name: Evoor
+        abi_file_path: ./abis/evoor-abi.json
+        address: "0x1F1D5027A1E5817D807458008Ca6Af5C9AD98354" #EVR
+        handler: src/EventHandlers.ts
+        events:
+          - event: "Approval(address indexed owner, address indexed spender, uint256 value)"
+          - event: "Transfer(address indexed from, address indexed to, uint256 value)"
+          - event: OwnershipTransferred(address indexed previousOwner, address indexed newOwner)
+# Rollback on reorg mode currently incurs a performance hit on historical sync
+# while developing an indexer we recommend setting this to false
+rollback_on_reorg: false

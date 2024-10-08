@@ -1,0 +1,20 @@
+type TokenApproval {
+  id: ID!
+  owner: String!
+  spender: String!
+  value: BigInt!
+}
+
+type TokenOwnershipTransferred {
+  id: ID!
+  previousOwner: String!
+  newOwner: String!
+}
+
+
+type TokenTransfer {
+  id: ID!
+  from: String!
+  to: String!
+  value: BigInt!
+}
